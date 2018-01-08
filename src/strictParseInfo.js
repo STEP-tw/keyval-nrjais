@@ -2,21 +2,23 @@ const Parsed=require("./parsed.js");
 const ParseInfo=require("./parseInfo.js");
 const InvalidKeyError=require("./errors/invalidKeyError.js");
 
-let contains=function(list,key) {
+const containsMatchCase=function(list,key) {
   return list.find(function(validKey){
     return key==validKey;
   });
 }
 
-let containsIgnoreCase = function (list, key) {
+const containsIgnoreCase = function (list, key) {
   return list.find(function (validKey) {
     return key.toLowerCase() == validKey.toLowerCase();
   });
 }
 
+var contains;
+
 var StrictParseInfo = function (initialParsingFunction, validKeys, caseSensitive) {
   ParseInfo.call(this,initialParsingFunction);
-  contains = caseSensitive ? contains : containsIgnoreCase;
+  contains = caseSensitive ? containsMatchCase : containsIgnoreCase;
   this.validKeys=validKeys;
 }
 
